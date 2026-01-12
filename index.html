@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>secret</title>
 
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #7a0000, #160000);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Georgia', serif;
+        overflow: hidden;
+    }
+
+    /* cinematic glow */
+    .glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,215,0,0.25), transparent);
+        animation: float 6s infinite alternate ease-in-out;
+    }
+
+    .glow.one { top: 10%; left: 15%; }
+    .glow.two { bottom: 15%; right: 20%; animation-delay: 3s; }
+
+    @keyframes float {
+        from { transform: translateY(0); }
+        to { transform: translateY(-40px); }
+    }
+
+    .login-box {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(14px);
+        border: 2px solid rgba(255, 215, 0, 0.45);
+        padding: 45px;
+        border-radius: 18px;
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+        text-align: center;
+        animation: entry 1.3s ease forwards;
+        z-index: 2;
+    }
+
+    @keyframes entry {
+        from { opacity: 0; transform: scale(0.85); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+        color: gold;
+        text-shadow: 0 0 15px gold;
+        letter-spacing: 4px;
+        margin-bottom: 25px;
+        text-transform: lowercase;
+    }
+
+    input {
+        width: 280px;
+        padding: 14px;
+        font-size: 18px;
+        color: gold;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 215, 0, 0.6);
+        border-radius: 10px;
+        outline: none;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        letter-spacing: 3px;
+    }
+
+    input::placeholder {
+        color: rgba(255, 215, 0, 0.6);
+    }
+
+    input:focus {
+        box-shadow: 0 0 15px gold;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 12px 35px;
+        font-size: 18px;
+        background: linear-gradient(45deg, gold, #ff9f00);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+    }
+
+    .error {
+        margin-top: 15px;
+        color: #ff4d4d;
+        min-height: 20px;
+    }
+
+    /* fullscreen image */
+    #poster {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        animation: reveal 1.5s ease forwards;
+        z-index: 3;
+    }
+
+    @keyframes reveal {
+        from { opacity: 0; transform: scale(1.05); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="login-box" id="login">
+    <h1>secret</h1>
+
+    <input type="password" id="password" placeholder="ENTER PASSWORD">
+    <br>
+    <button onclick="unlock()">unlock</button>
+
+    <div class="error" id="error"></div>
+</div>
+
+<img src="https://raw.githubusercontent.com/Abinash5030/Abinash5030/refs/heads/main/poster.jpeg" id="poster">
+
+<script>
+    const passwordInput = document.getElementById("password");
+
+    // force CAPS + glimpse effect
+    passwordInput.addEventListener("input", () => {
+        passwordInput.value = passwordInput.value.toUpperCase();
+
+        passwordInput.type = "text";
+        setTimeout(() => {
+            passwordInput.type = "password";
+        }, 500); // glimpse duration (ms)
+    });
+
+    function unlock() {
+        const pass = passwordInput.value;
+
+        if (pass === "BOLLYWOOD") {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("poster").style.display = "block";
+        } else {
+            document.getElementById("error").textContent = "wrong password";
+        }
+    }
+</script>
+
+</body>
+</html>
